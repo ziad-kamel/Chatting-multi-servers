@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class Hub {
     private static final int PORT = 8080;
-    private ArrayList<Integer> serverPorts;
+    protected ArrayList<Integer> serverPorts;
     private ServerSocket hubServerSocket;
     private Socket incomingClient;
     private PrintWriter outputWriter;
@@ -28,8 +28,6 @@ public class Hub {
             while (true) {
                 // once the server accept client => add it to client list the server is serving
                 incomingClient = hubServerSocket.accept();
-                serverPorts.add(incomingClient.getLocalPort());
-                System.out.println("suka blyad: "+serverPorts.toString());
 
                 // open a communication thread between the incoming server and hub
                 HubServerThread hubServerThread = new HubServerThread(this, incomingClient);
@@ -74,5 +72,9 @@ public class Hub {
                 }
             }
         }
+    }
+    public void recievePort(int port) {
+        serverPorts.add(port);
+        System.out.println("Saved PORTS: "+serverPorts.toString());
     }
 }

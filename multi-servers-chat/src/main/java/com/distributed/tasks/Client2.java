@@ -10,7 +10,7 @@ public class Client2 {
         System.out.print("Client Name: ");
         String name = scanner.nextLine();
 
-        Client client2 = new Client("localhost", 8080, name);
+        Client client2 = new Client("localhost", 8081, name);
 
         client2.receiveMessages();
 

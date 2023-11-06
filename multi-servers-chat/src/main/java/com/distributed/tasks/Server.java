@@ -28,20 +28,21 @@ public class Server {
             System.out.println("Server listen on port: " + PORT);
 
             //TODO
-            // new Thread(){
-            //     public void run() {
-            //         while (true) {
+             new Thread(){
+                 public void run() {
+                     while (true) {
                         try {
                             Socket bruh = new Socket("localhost", 8080);
+                            new PrintWriter(bruh.getOutputStream(), true).println(String.valueOf(PORT));
                             bruh.close();
-                            System.out.println(bruh.getLocalPort());
-                            // Thread.sleep(5000); // sleep for 5 seconds
+//                            System.out.println(bruh.getPort());
+                             Thread.sleep(5000); // sleep for 5 seconds
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-            //         }
-            //     }
-            // }.start();
+                     }
+                 }
+             }.start();
 
             // wait for client(s) to join the server
             while (true) {

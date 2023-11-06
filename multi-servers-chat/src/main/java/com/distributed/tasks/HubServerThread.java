@@ -17,16 +17,21 @@ public class HubServerThread extends Thread {
 
     @Override
     public void run() {
-        try {
+         try {
             // instantiate the inputReader to hold the server message send to server
             inputReader = new BufferedReader(new InputStreamReader(server.getInputStream()));
 
             // wait and listen for server message
-            while (true) {
                 // once the server send a new message => save it and broadcast it to all
                 // connected server
-                String serverMessage = inputReader.readLine();
-                hub.broadcast("HUB: " + "add hi");
+            String serverMessage = inputReader.readLine();
+            if ((Integer.parseInt(serverMessage)) > 8080) {
+                if(!hub.serverPorts.contains(Integer.parseInt(serverMessage)))
+                    hub.recievePort(Integer.parseInt(serverMessage));
+            }else {
+                String name = serverMessage.split(" ")[0];
+                serverMessage = serverMessage.substring(name.length() + 1, serverMessage.length());
+                hub.broadcast(serverMessage);
             }
 
         } catch (IOException e) {
