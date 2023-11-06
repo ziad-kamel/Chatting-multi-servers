@@ -7,7 +7,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 public class Server {
-    private int PORT = 8080;
+    private int PORT;
     private ArrayList<Socket> clientSockets;
     private ServerSocket serverSocket;
     private Socket incomingClient;

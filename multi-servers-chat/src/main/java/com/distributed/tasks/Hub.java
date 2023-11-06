@@ -54,11 +54,18 @@ public class Hub {
 
         for (int port : serverPorts) {
             try {
-                Socket currentServer = new Socket("localhost", port);
-                PrintWriter wirter = new PrintWriter(name);
-                hubServerSocket = new ServerSocket(port);
+                // connect to the port, and send a message
+                Socket socket = new Socket("localhost", port);
+                outputWriter = new PrintWriter(socket.getOutputStream(), true);
+                outputWriter.println(message);
             } catch (IOException e) {
                 System.out.println(e.getMessage());
+            } finally {
+                try {
+                    outputWriter.close();
+                } catch (Exception e) {
+                    System.out.println("cant relese");
+                }
             }
         }
     }
