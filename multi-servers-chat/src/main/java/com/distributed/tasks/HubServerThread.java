@@ -24,13 +24,12 @@ public class HubServerThread extends Thread {
             // wait and listen for server message
                 // once the server send a new message => save it and broadcast it to all
                 // connected server
-            String serverMessage = inputReader.readLine();
-            if ((Integer.parseInt(serverMessage)) > 8080) {
+                String serverMessage = inputReader.readLine();
+                int port = Integer.parseInt(serverMessage);
+            if (port > 8080) {
                 if(!hub.serverPorts.contains(Integer.parseInt(serverMessage)))
                     hub.recievePort(Integer.parseInt(serverMessage));
             }else {
-                String name = serverMessage.split(" ")[0];
-                serverMessage = serverMessage.substring(name.length() + 1, serverMessage.length());
                 hub.broadcast(serverMessage);
             }
 

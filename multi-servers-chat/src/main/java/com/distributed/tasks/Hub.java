@@ -54,11 +54,12 @@ public class Hub {
 
         String name = message.split(" ")[0];
         message = message.substring(name.length() + 1, message.length());
-
+        
+        Socket socket = null;
         for (int port : serverPorts) {
             try {
                 // connect to the port, and send a message
-                Socket socket = new Socket("localhost", port);
+                socket = new Socket("localhost", port);
                 outputWriter = new PrintWriter(socket.getOutputStream(), true);
                 outputWriter.println("HUB: " + message);
                 
@@ -66,6 +67,7 @@ public class Hub {
                 System.out.println(e.getMessage());
             } finally {
                 try {
+                    socket.close();
                     outputWriter.close();
                 } catch (Exception e) {
                     System.out.println("cant relese");

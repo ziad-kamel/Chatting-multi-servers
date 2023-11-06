@@ -27,9 +27,9 @@ public class ClientServerThread extends Thread {
                 // connected client
                 String clientMessage = inputReader.readLine();
                 String name = clientMessage.split(" ")[0];
-                clientMessage = clientMessage.substring(name.length() + 1, clientMessage.length());
+                String newClientMessage = clientMessage.substring(name.length() + 1, clientMessage.length());
                 if("HUB:".equals(name)){
-                    server.CRUD(clientMessage, name);
+                    server.CRUD(newClientMessage, name);
                 } else {
                     server.broadcast(clientMessage);
                 }

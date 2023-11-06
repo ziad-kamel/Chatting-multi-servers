@@ -104,6 +104,14 @@ public class Server {
         int index;
         String newEntry;
 
+        try {
+            Socket socket = new Socket("localhost", 8080);
+            PrintWriter send = new PrintWriter(socket.getOutputStream(), true);
+            send.println(name + " " + message);
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
         switch (message.split(" ")[0]) {
             case "edit":
                 // we need to update a data from the data Array we defined before [this array
