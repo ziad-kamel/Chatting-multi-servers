@@ -22,17 +22,22 @@ public class HubServerThread extends Thread {
             inputReader = new BufferedReader(new InputStreamReader(server.getInputStream()));
 
             // wait and listen for server message
-                // once the server send a new message => save it and broadcast it to all
-                // connected server
-                String serverMessage = inputReader.readLine();
-                int port = Integer.parseInt(serverMessage);
-            if (port > 8080) {
-                if(!hub.serverPorts.contains(Integer.parseInt(serverMessage)))
-                    hub.recievePort(Integer.parseInt(serverMessage));
-            }else {
-                hub.broadcast(serverMessage);
-            }
+            // once the server send a new message => save it and broadcast it to all
+            // connected server
+            String serverMessage = inputReader.readLine();
 
+            try{
+                int port = Integer.parseInt(serverMessage);
+                if (port > 8080 && !hub.serverPorts.contains(port)) {
+                        hub.recievePort(port);
+                }
+            }catch (NumberFormatException e){
+                System.out.println("Received a non-integer message: " + serverMessage);
+            }
+            
+            //hub.broadcast(serverMessage);
+ 
+            
         } catch (IOException e) {
             System.out.println(e.getMessage());
         } finally {
@@ -47,5 +52,4 @@ public class HubServerThread extends Thread {
         }
 
     }
-
 }
