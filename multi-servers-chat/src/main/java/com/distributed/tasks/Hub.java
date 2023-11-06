@@ -18,17 +18,22 @@ public class Hub {
     }
 
     // define starter method to start the server and wait for clients to join
-    public void startServer() {
+    public void startHub() {
         try {
             // open serverSocket on specific port
             hubServerSocket = new ServerSocket(PORT);
-            System.out.println("Server listen on port: " + PORT);
+            System.out.println("Hub listen on port: " + PORT);
 
             // wait for client(s) to join the server
             while (true) {
                 // once the server accept client => add it to client list the server is serving
                 incomingClient = hubServerSocket.accept();
-                serverPorts.add(incomingClient.getPort());
+                serverPorts.add(incomingClient.getLocalPort());
+                System.out.println("suka blyad: "+serverPorts.toString());
+
+                // open a communication thread between the incoming server and hub
+                HubServerThread hubServerThread = new HubServerThread(this, incomingClient);
+                hubServerThread.start();
             }
 
         } catch (IOException e) {
@@ -57,7 +62,8 @@ public class Hub {
                 // connect to the port, and send a message
                 Socket socket = new Socket("localhost", port);
                 outputWriter = new PrintWriter(socket.getOutputStream(), true);
-                outputWriter.println(message);
+                outputWriter.println("HUB: " + message);
+                
             } catch (IOException e) {
                 System.out.println(e.getMessage());
             } finally {

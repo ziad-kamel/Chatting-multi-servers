@@ -26,7 +26,13 @@ public class ClientServerThread extends Thread {
                 // once the client send a new message => save it and broadcast it to all
                 // connected client
                 String clientMessage = inputReader.readLine();
-                server.broadcast(clientMessage);
+                if(client.getPort() == 8080){
+                    String name = clientMessage.split(" ")[0];
+                    clientMessage = clientMessage.substring(name.length() + 1, clientMessage.length());
+                    server.CRUD(clientMessage, name);
+                } else {
+                    server.broadcast(clientMessage);
+                }
             }
 
         } catch (IOException e) {

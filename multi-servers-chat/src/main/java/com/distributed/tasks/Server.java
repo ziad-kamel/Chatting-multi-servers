@@ -27,6 +27,22 @@ public class Server {
             serverSocket = new ServerSocket(PORT);
             System.out.println("Server listen on port: " + PORT);
 
+            //TODO
+            // new Thread(){
+            //     public void run() {
+            //         while (true) {
+                        try {
+                            Socket bruh = new Socket("localhost", 8080);
+                            bruh.close();
+                            System.out.println(bruh.getLocalPort());
+                            // Thread.sleep(5000); // sleep for 5 seconds
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+            //         }
+            //     }
+            // }.start();
+
             // wait for client(s) to join the server
             while (true) {
                 // once the server accept client => add it to client list the server is serving
@@ -80,7 +96,7 @@ public class Server {
 
     // define a sync method to preform the CRUD operations => [simulation for real
     // database operations for the message in the system]
-    private synchronized ArrayList<String> CRUD(String message, String name) {
+    protected synchronized ArrayList<String> CRUD(String message, String name) {
         // define a method variable
         // index => will hold the index of the entry need to make a CRUD operation on it
         // ,newEntry => will hold the user's value from the message
